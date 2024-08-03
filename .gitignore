@@ -35,12 +35,15 @@ bower_components
 # node-waf configuration
 .lock-wscript
 
+.env
+
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
 
 # Dependency directories
 node_modules/
 jspm_packages/
+foo/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
