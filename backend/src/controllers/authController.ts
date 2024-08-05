@@ -24,7 +24,7 @@ export const register = async (req: Request, res: Response) => {
         uid: uid,
       },
     });
-    return res.status(201).json(user);
+    return res.status(201).json({message: "User has been created"});
   } catch (error) {
     res.status(400).json({ message: 'Error creating user', error });
   }
@@ -42,7 +42,7 @@ export const login = async (req: Request, res: Response) => {
 
     if (user && await bcrypt.compare(password, user.password)) {
       const token = jwt.sign(user.uid , 'your_jwt_secret');
-      return res.status(200).json({ message: "Logado", token });
+      return res.status(200).json({ message: "Logged", token });
     }
   } catch (error) {
     return res.status(401).json({ message: "Erro logging in", error });
