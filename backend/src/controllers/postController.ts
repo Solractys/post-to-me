@@ -17,15 +17,13 @@ export const createPost = async (req: Request, res: Response) => {
     const userid = user.id;
     const { title, content } = req.body;
     const createdAt = Date.now().toString();
-    console.log(typeof createdAt);
     const post = await prisma.post.create({
       data: {
         title: title,
         content: content,
-        authorId: userid,
+        authorName: user.username,
       },
     });
-    console.log(post);
     return res.status(201).json(post);
   } catch (error) {
     return res.status(400).json({ message: "Error creating post", error });
@@ -45,7 +43,6 @@ export const editPost = async (req: Request, res: Response) => {
       uid: compareToken,
     },
   });
-  console.log(user);
   // Remove the declaration of the 'userid' variable
   try {
     const post = await prisma.post.findFirst({
@@ -53,7 +50,7 @@ export const editPost = async (req: Request, res: Response) => {
         id: parseInt(id),
       },
     });
-    if (post?.authorId !== user?.id) {
+    if (post?.authorName !== user?.id) {
       return res
         .status(403)
         .json({ message: "You are not author of this post." });
@@ -84,7 +81,7 @@ export const listPosts = async (req: Request, res: Response) => {
       },
     });
     const posts = await prisma.post.findMany({
-      where: userOnly === "true" ? { authorId: user?.id } : {},
+      where: userOnly === "true" ? { authorName: user?.username } : {},
       orderBy: {
         createdAt: order === "asc" ? "asc" : "desc",
       },
@@ -125,7 +122,7 @@ export const deletePost = async (req: Request, res: Response) => {
         id: parseInt(id),
       },
     });
-    if (post?.authorId !== userid) {
+    if (post?.authorName !== userid) {
       return res
         .status(400)
         .json({ message: "You're not authos of this post" });
