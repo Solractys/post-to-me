@@ -70,7 +70,7 @@ export default function Login() {
           className="flex justify-center items-center gap-3 flex-col w-full"
         >
           <input
-            className="rounded-md font-bold bg-zinc-900 shadow-shape placeholder:text-zinc-500 text-zinc-950 w-full p-2 focus:outline-none"
+            className="rounded-md font-bold bg-zinc-900 shadow-shape placeholder:text-zinc-500 text-zinc-50 w-full p-2 focus:outline-none"
             placeholder="Email"
             type="email"
             id="email"
@@ -78,7 +78,7 @@ export default function Login() {
             onChange={handleEmailChange}
           />
           <input
-            className="rounded-md font-bold bg-zinc-900 shadow-shape placeholder:text-zinc-500 text-zinc-950 w-full p-2 focus:outline-none"
+            className="rounded-md font-bold bg-zinc-900 shadow-shape placeholder:text-zinc-500 text-zinc-50 w-full p-2 focus:outline-none"
             placeholder="********"
             type="password"
             id="password"
