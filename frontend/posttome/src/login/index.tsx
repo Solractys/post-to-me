@@ -1,8 +1,15 @@
+"use client";
 import React, { useState } from "react";
+import { HashLoader } from "react-spinners";
+import { api } from "../lib/axios";
+// import { api } from "../lib/axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -12,18 +19,49 @@ export default function Login() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: Handle login logic
+    setLoading(true);
+    try {
+      const response = await api.post(
+        "/login",
+        {
+          email: email,
+          password: password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      // Handle the response here
+      if (response.status === 200) {
+        console.log("Login successful");
+        navigate("/dashboard");
+      } else {
+        // Error handling
+        console.log("Login failed");
+      }
+    } catch (error) {
+      // Handle network errors
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <main className="bg-zinc-950 bg-pattern bg-no-repeat bg-center flex justify-center flex-col items-center h-screen p-4">
+      {loading && (
+        <div className="fixed flex items-center justify-center inset-0 bg-black bg-opacity-50 z-50">
+          <HashLoader color="#2563eb" />
+        </div>
+      )}
       <img
         src="logo.png"
         alt="A withe email icon logo"
-        width={100}
-        height={100}
+        width={150}
+        height={150}
       />
       <h1 className="text-zinc-50 font-semibold text-2xl">Post to me</h1>
       <div className="flex items-center justify-center flex-col max-w-[320px] w-full  p-4 space-y-5 text-zinc-50">

@@ -24,12 +24,14 @@ const RegisterForm: React.FC = () => {
 
   return (
     <main className="h-screen bg-pattern bg-no-repeat bg-center bg-zinc-950 flex items-center justify-center flex-col p-4 space-y-5">
-      <img
-        src="logo.png"
-        alt="a white email icon logo"
-        width={150}
-        height={150}
-      />
+      <a href="/">
+        <img
+          src="logo.png"
+          alt="a white email icon logo"
+          width={150}
+          height={150}
+        />
+      </a>
       <h1 className="text-zinc-50 font-semibold text-xl">Cadastre-se</h1>
       <form
         onSubmit={handleSubmit}
@@ -38,7 +40,7 @@ const RegisterForm: React.FC = () => {
         <div className="w-full">
           <input
             required
-            className="rounded-md font-bold bg-zinc-900 shadow-shape placeholder:text-zinc-500 text-zinc-950 w-full p-2 focus:outline-none"
+            className="rounded-md font-bold bg-zinc-900 shadow-shape placeholder:text-zinc-500 text-zinc-50 w-full p-2 focus:outline-none"
             placeholder="Nome de usuário"
             type="text"
             id="username"
@@ -49,7 +51,7 @@ const RegisterForm: React.FC = () => {
         <div className="w-full">
           <input
             required
-            className="rounded-md font-bold bg-zinc-900 shadow-shape placeholder:text-zinc-500 text-zinc-950 w-full p-2 focus:outline-none"
+            className="rounded-md font-bold bg-zinc-900 shadow-shape placeholder:text-zinc-500 text-zinc-50 w-full p-2 focus:outline-none"
             placeholder="Email"
             type="email"
             id="email"
@@ -60,7 +62,7 @@ const RegisterForm: React.FC = () => {
         <div className="w-full">
           <input
             required
-            className="rounded-md font-bold bg-zinc-900 shadow-shape placeholder:text-zinc-500 text-zinc-950 w-full p-2 focus:outline-none"
+            className="rounded-md font-bold bg-zinc-900 shadow-shape placeholder:text-zinc-500 placeholder:text-xl text-xl text-zinc-50 w-full p-2 focus:outline-none"
             type="password"
             placeholder="*********"
             id="password"
