@@ -38,12 +38,16 @@ export const login = async (req: Request, res: Response) => {
       .status(400)
       .json({ message: "username and Password are required" });
   }
-
   try {
     const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const userAuth = admin.auth().getUserByEmail(email);
+    const auth = (await userAuth).uid;
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      const token = jwt.sign(user.uid, "your_jwt_secret");
+      const token = jwt.sign(auth, `${Date.now()}`);
       return res.status(200).json({ message: "Logged", token });
     }
   } catch (error) {
