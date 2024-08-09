@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React, { useState } from "react";
 import { getCookies } from "typescript-cookie";
 import { api } from "../lib/axios";
@@ -13,10 +14,19 @@ const Dashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const token = localStorage.getItem("token") || getCookies().token;
   // const [posts, setPosts] = useState<Post[]>([]);
+=======
+import React, { useEffect, useState } from "react";
+import { api } from "../lib/axios";
+import { getCookie } from "typescript-cookie";
+
+const Dashboard: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+>>>>>>> Stashed changes
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
     // Perform search logic
   };
+<<<<<<< Updated upstream
 
   React.useEffect(() => {
     // Fetch posts
@@ -35,6 +45,30 @@ const Dashboard: React.FC = () => {
         console.log(error);
       });
   }, [token]);
+=======
+  useEffect(() => {
+    // Fetch posts here
+    const fetchData = async () => {
+      try {
+        const response = await api.get("/posts", {
+          headers: {
+            Cookie: getCookie("token"),
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        });
+        const data = await response.data;
+
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+>>>>>>> Stashed changes
 
   return (
     <div className="dashboard">
