@@ -54,6 +54,8 @@ export const login = async (req: Request, res: Response) => {
           secure: true,
           maxAge: 7 * 86400,
           sameSite: "none",
+          partitioned: true,
+          expires: new Date(Date.now() + 7 * 86400),
         })
         .status(200)
         .json({ message: "User logged in" });
