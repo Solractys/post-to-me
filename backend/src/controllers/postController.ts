@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 export const createPost = async (req: Request, res: Response) => {
   try {
-    const token = req.cookies.token;
+    const token = req.headers.token as string;
     const uid = jwt.decode(token)!.toString();
     const user = await prisma.user.findFirst({
       where: {
@@ -36,7 +36,7 @@ export const editPost = async (req: Request, res: Response) => {
   if (!id) {
     return res.status(400).json({ message: "Invalid post ID" });
   }
-  const token = req.cookies.token;
+  const token = req.headers.token as string;
   const compareToken = jwt.decode(token)!.toString();
   const user = await prisma.user.findFirst({
     where: {
@@ -73,7 +73,7 @@ export const listPosts = async (req: Request, res: Response) => {
   try {
     const { order = "desc", userOnly = "false" } = req.query;
 
-    const token = req.cookies.token;
+    const token = req.headers.token as string;
     const compareToken = jwt.decode(token)!.toString();
     const user = await prisma.user.findFirst({
       where: {
@@ -107,7 +107,7 @@ export const getPostId = async (req: Request, res: Response) => {
 
 export const deletePost = async (req: Request, res: Response) => {
   try {
-    const token = req.cookies.token;
+    const token = req.headers.token as string;
     const compareToken = jwt.decode(token)!.toString();
     const user = await prisma.user.findFirst({
       where: {
