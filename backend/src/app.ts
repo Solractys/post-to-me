@@ -7,14 +7,15 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "*",
     methods: "GET, POST, PUT, DELETE",
     credentials: true,
+    allowedHeaders: "Content-Type, Authorization",
   })
 );
 
 app.use(bodyParser.json());
 
-app.use('/api', routes);
+app.use("/api", routes);
 
 export default app;
