@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import prisma from "../prisma";
 import admin from "../firebase";
 import bcrypt from "bcrypt";
+import { setCookie } from "typescript-cookie";
 
 export const register = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
@@ -48,7 +49,12 @@ export const login = async (req: Request, res: Response) => {
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const token = jwt.sign(auth, `${Date.now()}`);
-      return res.status(200).json({ message: "Logged", token });
+      setCookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 7 * 86400,
+      });
+      return res.status(200).json({ message: "Logged" });
     }
   } catch (error) {
     return res.status(401).json({ message: "Erro logging in", error });
