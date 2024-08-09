@@ -7,11 +7,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5173/register",
-      "http://localhost:5173/dashboard",
-    ],
+    origin: "http://localhost:5173",
     methods: "GET, POST, PUT, DELETE",
     credentials: true,
   })
