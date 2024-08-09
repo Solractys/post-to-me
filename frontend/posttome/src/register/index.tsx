@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+import { HashLoader } from "react-spinners";
+import { api } from "../lib/axios";
+import { useNavigate } from "react-router-dom";
 
 const RegisterForm: React.FC = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [loading, setLoading] = useState(false);
+  const [modalConfirmRegister, setModalConfirmRegister] = useState(false);
+  const navigate = useNavigate();
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
@@ -17,13 +22,54 @@ const RegisterForm: React.FC = () => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
+    setLoading(true);
     event.preventDefault();
-    // Handle form submission logic here
+    const response = await api.post("/register", {
+      username,
+      email,
+      password,
+    });
+    setLoading(false);
+    if (response.status === 201) {
+      openModal();
+    } else {
+      alert("Erro ao cadastrar usuário!");
+    }
+    return response;
   };
+
+  function openModal() {
+    setModalConfirmRegister(true);
+  }
+  function closeModal() {
+    setModalConfirmRegister(false);
+    navigate("/");
+  }
 
   return (
     <main className="h-screen bg-pattern bg-no-repeat bg-center bg-zinc-950 flex items-center justify-center flex-col p-4 space-y-5">
+      {modalConfirmRegister && (
+        <div className="fixed flex items-center justify-center inset-0 bg-black bg-opacity-50 z-50">
+          <div className="bg-zinc-950 p-4 rounded-md shadow-shape flex flex-col items-center space-y-4">
+            <h1 className="text-zinc-50 font-semibold text-xl">
+              Cadastro realizado com sucesso!
+            </h1>
+            <button
+              onClick={closeModal}
+              className="shadow-shape bg-blue-600 hover:bg-blue-700 text-zinc-50 rounded-md px-4 py-1 font-bold transition-all"
+            >
+              Ok
+            </button>
+          </div>
+        </div>
+      )}
+
+      {loading && (
+        <div className="fixed flex items-center justify-center inset-0 bg-black bg-opacity-50 z-50">
+          <HashLoader color="#2563eb" />
+        </div>
+      )}
       <a href="/">
         <img
           src="logo.png"

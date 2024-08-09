@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { HashLoader } from "react-spinners";
 import { api } from "../lib/axios";
-// import { api } from "../lib/axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -36,7 +35,6 @@ export default function Login() {
 
       // Handle the response here
       if (response.status === 200) {
-        console.log("Login successful");
         navigate("/dashboard");
       } else {
         // Error handling
