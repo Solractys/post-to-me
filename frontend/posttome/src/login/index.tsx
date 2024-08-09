@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { HashLoader } from "react-spinners";
 import { api } from "../lib/axios";
 import { useNavigate } from "react-router-dom";
-import { getCookie } from "typescript-cookie";
+import { getCookies, setCookie } from "typescript-cookie";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -23,23 +23,17 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await api.post(
-        "/login",
-        {
-          email: email,
-          password: password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await api.post("/login", {
+        email: email,
+        password: password,
+      });
 
       if (response.status === 200) {
-        const test = getCookie("token");
-        console.log(test);
+        setCookie("token", response.data.token);
+        console.log(getCookies());
         navigate("/dashboard");
       } else {
-        console.log("Login failed");
+        console.log("Falha no login");
       }
     } catch (error) {
       // Handle network errors

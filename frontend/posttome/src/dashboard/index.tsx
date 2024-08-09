@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { getCookies } from "typescript-cookie";
 
 const Dashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -7,6 +8,7 @@ const Dashboard: React.FC = () => {
     setSearchTerm(event.target.value);
     // Perform search logic here
   };
+  console.log(getCookies());
 
   return (
     <div className="dashboard">

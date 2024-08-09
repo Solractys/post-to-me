@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { HashLoader } from "react-spinners";
 import { api } from "../lib/axios";
 import { useNavigate } from "react-router-dom";
+import { XCircle } from "lucide-react";
 
 const RegisterForm: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -32,9 +33,9 @@ const RegisterForm: React.FC = () => {
     });
     setLoading(false);
     if (response.status === 201) {
-      openModal();
+      navigate("/");
     } else {
-      alert("Erro ao cadastrar usuário!");
+      openModal();
     }
     return response;
   };
@@ -44,22 +45,22 @@ const RegisterForm: React.FC = () => {
   }
   function closeModal() {
     setModalConfirmRegister(false);
-    navigate("/");
   }
 
   return (
     <main className="h-screen bg-pattern bg-no-repeat bg-center bg-zinc-950 flex items-center justify-center flex-col p-4 space-y-5">
       {modalConfirmRegister && (
-        <div className="fixed flex items-center justify-center inset-0 bg-black bg-opacity-50 z-50">
+        <div className="fixed p-4 flex items-center backdrop-blur-lg justify-center inset-0 bg-black bg-opacity-50 z-50">
           <div className="bg-zinc-950 p-4 rounded-md shadow-shape flex flex-col items-center space-y-4">
             <h1 className="text-zinc-50 font-semibold text-xl">
-              Cadastro realizado com sucesso!
+              Algo deu errado! Tente novamente.
             </h1>
+            <XCircle className="text-red-600" size={50} />
             <button
               onClick={closeModal}
               className="shadow-shape bg-blue-600 hover:bg-blue-700 text-zinc-50 rounded-md px-4 py-1 font-bold transition-all"
             >
-              Ok
+              tentar novamente
             </button>
           </div>
         </div>
