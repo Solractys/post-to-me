@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { HashLoader } from "react-spinners";
 import { api } from "../lib/axios";
 import { useNavigate } from "react-router-dom";
-import { getCookies, setCookie } from "typescript-cookie";
+import setToken from "../hooks/setToken";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -29,8 +29,8 @@ export default function Login() {
       });
 
       if (response.status === 200) {
-        setCookie("token", response.data.token);
-        console.log(getCookies());
+        const { token } = response.data as { token: string };
+        setToken(token);
         navigate("/dashboard");
       } else {
         console.log("Falha no login");
