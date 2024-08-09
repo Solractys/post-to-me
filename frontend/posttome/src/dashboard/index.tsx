@@ -18,21 +18,23 @@ const Dashboard: React.FC = () => {
     // Perform search logic
   };
 
-  // Fetch posts
-  api
-    .get("/posts", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      withCredentials: true,
-    })
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  React.useEffect(() => {
+    // Fetch posts
+    api
+      .get("/posts", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [token]);
 
   return (
     <div className="dashboard">
