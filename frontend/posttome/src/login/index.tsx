@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { HashLoader } from "react-spinners";
 import { api } from "../lib/axios";
 import { useNavigate } from "react-router-dom";
+import { getCookie } from "typescript-cookie";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -33,11 +34,10 @@ export default function Login() {
         }
       );
 
-      // Handle the response here
       if (response.status === 200) {
+        console.log(getCookie("token"));
         navigate("/dashboard");
       } else {
-        // Error handling
         console.log("Login failed");
       }
     } catch (error) {
