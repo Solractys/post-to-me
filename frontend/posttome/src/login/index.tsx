@@ -23,10 +23,19 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await api.post("/login", {
-        email: email,
-        password: password,
-      });
+      const response = await api.post(
+        "/login",
+        {
+          email: email,
+          password: password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
       if (response.status === 200) {
         const { token } = response.data as { token: string };

@@ -26,11 +26,20 @@ const RegisterForm: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     setLoading(true);
     event.preventDefault();
-    const response = await api.post("/register", {
-      username,
-      email,
-      password,
-    });
+    const response = await api.post(
+      "/register",
+      {
+        username,
+        email,
+        password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
     setLoading(false);
     if (response.status === 201) {
       navigate("/");
