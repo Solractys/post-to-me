@@ -53,7 +53,6 @@ export const login = async (req: Request, res: Response) => {
           httpOnly: true,
           secure: true,
           maxAge: 7 * 86400,
-          domain: "http://localhost:5173",
         })
         .status(200)
         .json({ message: "User logged in" });
