@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 export const createComment = async (req: Request, res: Response) => {
   try {
     const { content, postId } = req.body;
-    const token = req.headers.authorization!.split(" ")[1];
+    const token = req.cookies.token;
     const uid = jwt.decode(token)!.toString();
     const user = await prisma.user.findFirst({
       where: {
@@ -29,7 +29,7 @@ export const createComment = async (req: Request, res: Response) => {
 };
 export const editComment = async (req: Request, res: Response) => {
   const { content, id } = req.body;
-  const token = req.headers.authorization!.split(" ")[1];
+  const token = req.cookies.token;
   const uid = jwt.decode(token)!.toString();
   const user = await prisma.user.findFirst({
     where: {
@@ -78,7 +78,7 @@ export const deleteComment = async (req: Request, res: Response) => {
   if (!id) {
     return res.status(400).json({ message: "Invalid comment ID" });
   }
-  const token = req.headers.authorization!.split(" ")[1];
+  const token = req.cookies.token;
   const uid = jwt.decode(token)!.toString();
   const user = await prisma.user.findFirst({
     where: {
