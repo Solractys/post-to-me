@@ -3,11 +3,7 @@ import React, { useState } from "react";
 import { HashLoader } from "react-spinners";
 import { api } from "../lib/axios";
 import { useNavigate } from "react-router-dom";
-<<<<<<< Updated upstream
 import setToken from "../hooks/setToken";
-=======
-import { getCookie } from "typescript-cookie";
->>>>>>> Stashed changes
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -45,12 +41,8 @@ export default function Login() {
       );
 
       if (response.status === 200) {
-<<<<<<< Updated upstream
         const { token } = response.data as { token: string };
         setToken(token);
-=======
-        getCookie("token");
->>>>>>> Stashed changes
         navigate("/dashboard");
       } else {
         console.log("Falha no login");
