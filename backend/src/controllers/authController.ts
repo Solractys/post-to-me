@@ -49,10 +49,7 @@ export const login = async (req: Request, res: Response) => {
     if (user && (await bcrypt.compare(password, user.password))) {
       const token = jwt.sign(auth, `${Date.now()}`);
 
-      return res
-        .header(token)
-        .status(200)
-        .json({ message: "User logged in", token });
+      return res.status(200).json({ message: "User logged in", token });
     }
   } catch (error) {
     return res.status(401).json({ message: "Erro logging in", error });
