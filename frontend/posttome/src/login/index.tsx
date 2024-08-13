@@ -55,7 +55,7 @@ export default function Login() {
   };
 
   return (
-    <main className="bg-zinc-950 bg-pattern bg-no-repeat bg-center flex justify-center flex-col items-center h-screen p-4">
+    <main className="bg-pattern bg-no-repeat bg-center flex justify-center flex-col items-center h-screen p-4">
       {loading && (
         <div className="fixed flex items-center justify-center inset-0 bg-black bg-opacity-50 z-50">
           <HashLoader color="#2563eb" />
