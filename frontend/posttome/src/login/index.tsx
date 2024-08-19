@@ -47,7 +47,6 @@ export default function Login() {
         console.log("Falha no login");
       }
     } catch (error) {
-      // Handle network errors
       console.log(error);
     } finally {
       setLoading(false);

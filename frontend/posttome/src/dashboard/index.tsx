@@ -1,10 +1,15 @@
 import React from "react";
 import Post from "../components/post";
+import CreatePost from "./createPost";
+// import { Navigate, useNavigate } from "react-router";
 // import { api } from "../lib/axios";
 // import { getCookie } from "typescript-cookie";
 
 const Dashboard: React.FC = () => {
+  const [createSection, setCreateSection] = React.useState(false);
+  // const navigate = useNavigate();
   // const [searchTerm, setSearchTerm] = useState("");
+
   // const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
   // setSearchTerm(event.target.value);
   // Perform search logic
@@ -27,17 +32,26 @@ const Dashboard: React.FC = () => {
   //     })
   //     .catch((error) => {
   //       console.log(error);
+  //  navigate("/");
   //     });
   // }, []);
 
   return (
     <div className="space-y-5 p-2 overflow-clip text-zinc-50  ">
-      <div className="flex gap-5 w-full justify-between p-5">
+      <div className="flex gap-5 w-full justify-between items-center p-5">
         <div className="flex sm:justify-start   items-center w-full ">
           <img
             src="logo.png"
             alt="logo do post-to-me branca com um titulo circular"
           />
+        </div>
+        <div>
+          <button
+            onClick={() => setCreateSection(!createSection)}
+            className="w-max bg-zinc-50 text-zinc-950 rounded-md py-1 px-4 font-semibold hover:bg-zinc-950 hover:text-zinc-50 border hover:border-zinc-800 transition-all active:bg-zinc-800"
+          >
+            Criar Post
+          </button>
         </div>
       </div>
       <div className="flex w-full items-center flex-col bg-pattern bg-center bg-no-repeat h-80 space-y-10  justify-center">
@@ -58,6 +72,11 @@ const Dashboard: React.FC = () => {
           </button>
         </form>
       </div>
+      {createSection && (
+        <div className="flex justify-center items-center flex-col space-y-5">
+          <CreatePost />
+        </div>
+      )}
       <div className="flex items-center justify-center flex-col space-y-6 max-w-full">
         {Array.from({ length: 5 }).map((_, index) => (
           <Post
