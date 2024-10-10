@@ -8,8 +8,10 @@ const RegisterForm: React.FC = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
   const [loading, setLoading] = useState(false);
   const [modalConfirmRegister, setModalConfirmRegister] = useState(false);
+  const [ErrorPasswordModal, setErrorPasswordModal] = useState(false);
   const navigate = useNavigate();
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -22,33 +24,53 @@ const RegisterForm: React.FC = () => {
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    setLoading(true);
-    event.preventDefault();
-    const response = await api.post(
-      "/register",
-      {
-        username,
-        email,
-        password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    );
-    setLoading(false);
-    if (response.status === 201) {
-      navigate("/");
-    } else {
-      openModal();
-    }
-    return response;
+  const handlePasswordChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword2(event.target.value);
   };
 
+  const handleSubmit = async (event: React.FormEvent) => {
+    try {
+      event.preventDefault();
+      if (password != password2){
+        openModalPassword()
+        return 0;
+      }
+      setLoading(true);
+      const response = await api.post(
+        "/register",
+        {
+          username,
+          email,
+          password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers":
+              "Origin, X-Requested-With, Content-Type, Accept",
+          },
+          withCredentials: true,
+        }
+      );
+      setLoading(false);
+      if (response.status === 201) {
+        navigate("/");
+      } else {
+        openModal();
+      }
+      return response;
+    }
+    catch (error) {
+      console.log(error)
+    }
+  };
+
+  function openModalPassword() {
+    setErrorPasswordModal(true);
+  }
+  function closeModalPassword() {
+    setErrorPasswordModal(false);
+  }
   function openModal() {
     setModalConfirmRegister(true);
   }
@@ -58,6 +80,22 @@ const RegisterForm: React.FC = () => {
 
   return (
     <main className="h-screen bg-pattern bg-no-repeat bg-center bg-zinc-950 flex items-center justify-center flex-col p-4 space-y-5">
+      {ErrorPasswordModal && (
+        <div className="fixed p-4 flex items-center backdrop-blur-lg justify-center inset-0 bg-black bg-opacity-50 z-50">
+          <div className="bg-zinc-950 w-72 p-4 rounded-md shadow-shape flex flex-col items-center space-y-4">
+            <h1 className="text-zinc-50 font-semibold text-center text-xl">
+              Algo deu errado na comfirmação da senha. Tente novamente.
+            </h1>
+            <XCircle className="text-red-600" size={50} />
+            <button
+              onClick={closeModalPassword}
+              className="shadow-shape bg-blue-600 hover:bg-blue-700 text-zinc-50 rounded-md px-4 py-1 font-bold transition-all"
+            >
+              tentar novamente
+            </button>
+          </div>
+        </div>
+      )}
       {modalConfirmRegister && (
         <div className="fixed p-4 flex items-center backdrop-blur-lg justify-center inset-0 bg-black bg-opacity-50 z-50">
           <div className="bg-zinc-950 p-4 rounded-md shadow-shape flex flex-col items-center space-y-4">
@@ -124,6 +162,17 @@ const RegisterForm: React.FC = () => {
             id="password"
             value={password}
             onChange={handlePasswordChange}
+          />
+        </div>
+        <div className="w-full">
+          <input
+            required
+            className="rounded-md font-bold bg-zinc-900 shadow-shape placeholder:text-zinc-500 placeholder:text-xl text-xl text-zinc-50 w-full p-2 focus:outline-none"
+            type="password"
+            placeholder="comfirm your password"
+            id="password"
+            value={password2}
+            onChange={handlePasswordChange2}
           />
         </div>
         <button
